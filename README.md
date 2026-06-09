@@ -64,7 +64,7 @@ A stable **engine** (`engine.py`) renders an active **declarative manifest** (th
 
 ## Heads-up
 
-- The interactive prompts are currently in **Ukrainian** (this started as a personal tool). The code, manifests, and this README are in English. An English prompt mode is a welcome PR.
+- The interactive prompts come in **English or Українська** — the skill asks which at the start. Code, manifests, and docs are English-canonical.
 - **QA disclaimer, honestly:** tested on exactly one Mac, by hand, in a sandbox, with a lot of `| sed 's/\x1b\[[0-9;]*m//g'`. No CI, no unit tests. It degrades to empty output rather than breaking your terminal, but: works-on-my-machine™. Issues and PRs welcome.
 
 ## License

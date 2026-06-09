@@ -1,54 +1,59 @@
-# Каталог показників
+# Indicator catalog
 
-Пояснення простою мовою для діалогу зі скілом `/statusline`. Для кожного показника:
-*що це / навіщо / коли шум*. Ключі в дужках — як показник зветься в `.conf`.
+Plain-language explanations for the `/statusline` conversation. For each indicator:
+*what it is / why it helps / when it's noise*. Keys in parentheses are the names used in the
+`.conf` manifest. Deliver these to the user in the language they chose (translate as needed).
 
-## Контекст
+## Context
 
-**ctx бар + токени** `[█░░░] .11/1` *(ключ `ctx`, параметр `tokens`)*
-Скільки контексту зʼїдено і яке повне вікно (в мільйонах токенів). Навіщо: бачити коли
-близько до стиснення. Коли шум: майже ніколи — це база.
+**ctx bar + tokens** `[█░░░] .11/1` *(key `ctx`, param `tokens`)*
+How much of the context window is used, and the full window size (in millions of tokens).
+Why: see when you're getting close to compaction. When it's noise: almost never — this is
+the baseline.
 
-**ctx %** *(ключ `ctx_pct`)*
-Те саме у відсотках. Коли шум: дублює бар і токени → за замовчуванням вимкнено.
+**ctx %** *(key `ctx_pct`)*
+The same thing as a percentage. When it's noise: duplicates the bar and the token count →
+off by default.
 
-## Вартість
+## Cost
 
-**$ вартість** `$1.23` *(ключ `cost`)*
-Гроші за сесію. Навіщо: стежити за витратами. Коли шум: на безлімітному/пейдж-плані —
-байдуже.
+**$ cost** `$1.23` *(key `cost`)*
+Money spent this session. Why: keep an eye on spend. When it's noise: on a flat-rate /
+subscription plan it doesn't matter.
 
-## Ліміти плану (вікна)
+## Plan limits (windows)
 
-**ліміт 5h / 7d — бар + %** `5h [████] 48%` *(ключі `limit_5h`, `limit_7d`)*
-Скільки квоти плану зʼїдено за 5 годин / 7 днів. Навіщо: не впертись у стелю. Коли шум:
-якщо ти завжди далеко від межі. 7d новачку часто зайве.
+**5h / 7d limit — bar + %** `5h [████] 48%` *(keys `limit_5h`, `limit_7d`)*
+How much of your plan quota you've used in the last 5 hours / 7 days. Why: don't slam into
+the ceiling. When it's noise: if you're always far from the limit. 7d is often overkill for
+newcomers.
 
-Параметри вікон:
+Window params:
 
-- **marker** `|` — де ти лінійно мав би бути за часом. Миттєво видно: випереджаєш чи
-  відстаєш. Зелений = в межах, червоний = попереду. *Шум:* без пояснення новачку незрозуміло.
-- **projection** `▒ / ▓` — куди прийдеш у поточному темпі. Сірий `▒` = в межах бюджету,
-  червоний `▓` = виб'єш межу. *Шум:* складно новачку.
-- **delta** `Δ-1:20` — скільки чекатимеш заблокований, якщо виб'єш межу в цьому темпі.
-  Найдієвіше число — каже наслідок. Зʼявляється лише коли випереджаєш, інакше тиша.
-  *Шум:* якщо рідко впираєшся.
-- **reset** `⏷3:21` — коли вікно скинеться. Навіщо: знати скільки терпіти.
+- **marker** `|` — where you'd be if you spent evenly over time. Tells you at a glance
+  whether you're ahead or behind. Green = within pace, red = ahead. *Noise:* confusing to a
+  newcomer without explanation.
+- **projection** `▒ / ▓` — where you'll end up at the current rate. Grey `▒` = projected use
+  within budget, red `▓` = you'll blow the limit. *Noise:* advanced for a newcomer.
+- **delta** `Δ-1:20` — how long you'll sit blocked if you exhaust the window at this rate.
+  The most actionable number — it names the consequence. Shows only when you're ahead;
+  silent when safe. *Noise:* if you rarely hit the ceiling.
+- **reset** `⏷3:21` — when the window resets. Why: know how long to wait.
 
-## Праворуч
+## Right side
 
-**модель** `Opus 4.8` *(ключ `model`)*
-Яка модель активна. Навіщо: підтвердження. Коли шум: рідко змінюється.
+**model** `Opus 4.8` *(key `model`)*
+Which model is active. Why: confirmation. When it's noise: rarely changes.
 
-**ефорт** `high~` *(ключ `effort`)*
-Рівень зусиль. Показує **живий** рівень поточної сесії (з JSON), а не лише налаштований
-дефолт. Знак авто-режиму: якщо дефолт `auto`, рівень **плинний** (Claude обрав сам, може
-змінитись) → приглушене золото з тильдою `high~`. Якщо рівень закріплено (`/effort high`) →
-яскравий `high` без знака. Навіщо: видно і що зараз працює, і чи це тимчасово. Коли шум: якщо не
-користуєшся ефортом.
+**effort** `high~` *(key `effort`)*
+The effort level. Shows the **live** level of the current session (from the JSON payload),
+not just the configured default. Auto marker: if the default is `auto`, the level is
+**fluid** (the model picked it, may change) → muted gold with a tilde `high~`. If it's
+pinned (`/effort high`) → bright `high`, no marker. Why: see both what's running now and
+whether it's temporary. When it's noise: if you don't use effort.
 
-## Гліфи
+## Glyphs
 
 **glyphs** `unicode | ascii`
-`unicode` — гарні блоки `█▒░⏷Δ`. `ascii` — `#=-@!` для терміналів/шрифтів, що не малюють
-unicode (визначається glyph-checkّ через очі користувача).
+`unicode` — nice blocks `█▒░⏷Δ`. `ascii` — `#=-@!` for terminals/fonts that can't render
+unicode (detected by the glyph-check, through the user's eyes).
