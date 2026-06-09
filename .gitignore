@@ -1,0 +1,12 @@
+# python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# runtime state lives in ~/.claude/statusline/, never inside this repo —
+# but ignore these names just in case someone copies state in by mistake
+/active
+/state.json
+/backups/
