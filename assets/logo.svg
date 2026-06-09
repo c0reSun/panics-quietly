@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" width="800" height="280" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+  <!-- card -->
+  <rect x="4" y="4" width="792" height="272" rx="18" fill="#181825" stroke="#313244" stroke-width="2"/>
+
+  <!-- the bar: calm on the surface, red panic creeping in -->
+  <g>
+    <text x="196" y="86" font-size="34" fill="#6c7086">[</text>
+    <!-- filled (used) -->
+    <rect x="216" y="60" width="26" height="34" rx="4" fill="#cdd6f4"/>
+    <rect x="247" y="60" width="26" height="34" rx="4" fill="#cdd6f4"/>
+    <rect x="278" y="60" width="26" height="34" rx="4" fill="#cdd6f4"/>
+    <!-- pace marker (green = within pace) -->
+    <rect x="309" y="60" width="26" height="34" rx="4" fill="#313244"/>
+    <rect x="318" y="58" width="7" height="38" rx="3" fill="#a6e3a1"/>
+    <!-- dim projection (within budget) -->
+    <rect x="340" y="60" width="26" height="34" rx="4" fill="#45475a"/>
+    <rect x="371" y="60" width="26" height="34" rx="4" fill="#45475a"/>
+    <!-- red projection — the quiet panic -->
+    <rect x="402" y="60" width="26" height="34" rx="4" fill="#f38ba8"/>
+    <rect x="433" y="60" width="26" height="34" rx="4" fill="#f38ba8"/>
+    <rect x="464" y="60" width="26" height="34" rx="4" fill="#f38ba8"/>
+    <!-- empty -->
+    <rect x="495" y="60" width="26" height="34" rx="4" fill="#313244"/>
+    <rect x="526" y="60" width="26" height="34" rx="4" fill="#313244"/>
+    <rect x="557" y="60" width="26" height="34" rx="4" fill="#313244"/>
+    <text x="588" y="86" font-size="34" fill="#6c7086">]</text>
+
+    <!-- the quiet panic, spelled out -->
+    <text x="624" y="85" font-size="26" font-weight="700" fill="#f38ba8">&#916;-1:33</text>
+  </g>
+
+  <!-- wordmark -->
+  <text x="400" y="168" text-anchor="middle" font-size="50" font-weight="700" fill="#cdd6f4" letter-spacing="0.5">Panics Quietly</text>
+
+  <!-- tagline -->
+  <text x="400" y="204" text-anchor="middle" font-size="17" fill="#a6adc8">does the arithmetic on your token future &#8212; calmly</text>
+
+  <!-- footer line -->
+  <text x="400" y="242" text-anchor="middle" font-size="13" fill="#6c7086">/statusline  ·  Claude Code  ·  python3-only  ·  silent when safe, red when doomed</text>
+</svg>

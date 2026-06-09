@@ -1,6 +1,8 @@
-# claude-statusline
+<p align="center"><img src="assets/logo.svg" width="680" alt="Panics Quietly"></p>
 
-A conversational, newbie-friendly **statusline configurator for [Claude Code](https://claude.com/claude-code)**. Instead of a config file you edit blind, an AI walks you through what to show — explaining when each indicator is useful and when it's just noise — then writes the config for you.
+# Panics Quietly
+
+The humblest strip of UI imaginable — secretly doing arithmetic about your token future. A conversational, newbie-friendly **statusline configurator for [Claude Code](https://claude.com/claude-code)**: instead of a config file you edit blind, an AI walks you through what to show — explaining when each indicator is useful and when it's just noise — then writes the config for you. Silent when you're safe, red when you're doomed. (The slash command is `/statusline`.)
 
 ![deps](https://img.shields.io/badge/deps-python3%20only-brightgreen)
 ![tested](https://img.shields.io/badge/tested-on%20exactly%20one%20Mac-yellow)
@@ -26,7 +28,7 @@ Everything is read from the Claude Code statusline JSON payload. **The only depe
 ## Install
 
 ```sh
-git clone https://github.com/<you>/claude-statusline ~/.claude/skills/statusline
+git clone https://github.com/c0reSun/panics-quietly ~/.claude/skills/statusline
 ```
 
 Then in Claude Code:
