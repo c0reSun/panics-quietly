@@ -236,8 +236,9 @@ def render(d, cfg):
         if isinstance(live, dict):
             live = live.get('level') or live.get('value') or ''
         try:
-            default = open(os.path.expanduser('~/.claude/.effort')).read().strip()
-        except OSError:
+            with open(os.path.expanduser('~/.claude/settings.json')) as f:
+                default = str(json.load(f).get('effortLevel') or '').strip()
+        except (OSError, ValueError):
             default = ''
         is_auto = default in ('', 'auto')      # дефолт auto → рівень плинний
         eff = live or default
