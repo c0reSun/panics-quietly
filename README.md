@@ -1,5 +1,7 @@
 <p align="center"><img src="assets/logo.svg" width="680" alt="Panics Quietly"></p>
 
+<p align="center"><b>English</b> · <a href="README.uk.md">Українська</a></p>
+
 # Panics Quietly
 
 The humblest strip of UI imaginable — secretly doing arithmetic about your token future. A conversational, newbie-friendly **statusline configurator for [Claude Code](https://claude.com/claude-code)**: instead of a config file you edit blind, an AI walks you through what to show — explaining when each indicator is useful and when it's just noise — then writes the config for you. Silent when you're safe, red when you're doomed. (The slash command is `/statusline`.)
