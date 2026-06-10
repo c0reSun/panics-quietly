@@ -14,6 +14,7 @@ import sys, os, json, time, argparse
 RED = '\033[31m'; GRN = '\033[32m'; DIM = '\033[90m'
 CYN = '\033[36m'; YLW = '\033[33m'; RST = '\033[0m'
 DYL = '\033[38;5;136m'  # приглушене золото — auto-ефорт (колір лишається, але темніший)
+EMP = '\033[38;5;238m'  # тьмяне порожнє — найслабша інтенсивність, відступає у фон
 
 GLYPHS = {
     'unicode': dict(full='█', over='▓', safe='▒', empty='░', mark='|', reset='⏷', delta='Δ'),
@@ -74,9 +75,9 @@ def bar(pct, width, pace, g):
             elif i < proj_pos:
                 out.append((RED + g['over'] if over_budget else DIM + g['safe']) + RST)
             else:
-                out.append(g['empty'])
+                out.append(EMP + g['empty'] + RST)
     else:
-        out = [g['full']] * filled + [g['empty']] * (width - filled)
+        out = [g['full']] * filled + [EMP + g['empty'] + RST] * (width - filled)
     return '[' + ''.join(out) + ']'
 
 
