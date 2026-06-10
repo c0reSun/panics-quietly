@@ -57,3 +57,17 @@ whether it's temporary. When it's noise: if you don't use effort.
 **glyphs** `unicode | ascii`
 `unicode` — nice blocks `█▒░⏷Δ`. `ascii` — `#=-@!` for terminals/fonts that can't render
 unicode (detected by the glyph-check, through the user's eyes).
+
+## Auto-switching rules
+
+**rule:** `rule: <condition> -> profile=<name>` *(lines in any profile `.conf`)*
+Switch profiles automatically, checked on every render of the *active* profile. First
+matching rule wins; the target profile's own rules are not followed (no chains, no loops).
+
+- `rule: model=haiku -> profile=minimal` — `model` is a case-insensitive substring of the
+  model id/name. Why: a light model rarely needs the full forecast.
+- `rule: dir=~/Projects/Work -> profile=full` — `dir` is a path-prefix match on the current
+  workspace directory. Why: different projects, different dashboards.
+
+When it's noise: if you always want the same bar — most people do; this is opt-in and the
+presets ship with rules commented out.

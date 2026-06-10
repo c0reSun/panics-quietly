@@ -53,7 +53,9 @@ Paths are relative to this skill dir. State (active profile, editable `profiles/
 6. **Optional drill-in.** If they want to tweak individual indicators, explain each from
    CATALOG.md (what / why / when it's noise), default to the preset's choice. Write their
    custom selection to `~/.claude/statusline/profiles/custom.conf` (copy a preset, toggle
-   lines, keep the inline comments) and apply `--profile custom`.
+   lines, keep the inline comments) and apply `--profile custom`. If they mention wanting
+   different bars per project/model, offer `rule:` lines (syntax in CATALOG.md) — add them
+   to their active profile's `.conf`.
 
 7. **Final preview → confirm → apply.** Run `apply.py`. It backs up any existing bar as
    the restorable `previous` config before switching. Tell them the bar updates on the next
@@ -68,6 +70,6 @@ Paths are relative to this skill dir. State (active profile, editable `profiles/
 
 - Never break the bar: the engine degrades to empty output on any error, and falls back to
   a built-in `balanced`-style config if a manifest is missing.
-- `rules:` lines in manifests are reserved for future auto-switching (v2) — the engine
-  ignores them now. Don't build a rule engine.
+- `rule:` lines in manifests auto-switch profiles by context (`dir=` path prefix,
+  `model=` substring; first match wins, no chaining). Presets ship them commented out.
 - v1 scope is the statusline only. Don't touch other settings, skills, or CLAUDE.md.

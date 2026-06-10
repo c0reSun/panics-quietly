@@ -64,7 +64,18 @@ Profiles are plain, commented `.conf` files in `~/.claude/statusline/profiles/` 
 
 ## How it works
 
-A stable **engine** (`engine.py`) renders an active **declarative manifest** (the profile) on every frame. Switching profiles is a pointer change, not a regenerate. The manifest reserves a `rules:` section for future context-based auto-switching (not built yet). Design notes: [SPEC.md](SPEC.md). Indicator explanations: [CATALOG.md](CATALOG.md).
+A stable **engine** (`engine.py`) renders an active **declarative manifest** (the profile) on every frame. Switching profiles is a pointer change, not a regenerate. Design notes: [SPEC.md](SPEC.md). Indicator explanations: [CATALOG.md](CATALOG.md).
+
+### Auto-switching (rules)
+
+A profile can switch itself by context — add `rule:` lines to your active `.conf`:
+
+```
+rule: model=haiku            -> profile=minimal   # light model → quiet bar
+rule: dir=~/Projects/Work    -> profile=full      # this project → full forecast
+```
+
+Checked on every render, first match wins, no chains. `dir` is a path-prefix match, `model` a substring of the model name.
 
 ## Heads-up
 

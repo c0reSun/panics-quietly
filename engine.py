@@ -28,13 +28,20 @@ RED_AT = 80  # ctx tokens turn red above this %
 # ---------- manifest ----------
 def load_manifest(path):
     """Parse `key = on/off params  # comment`. Returns {key: {'on':bool,'params':{...}}}
-    plus '_glyphs'. The reserved `rules:`/`rule:` lines are ignored in v1."""
+    plus '_glyphs' and '_rules' (parsed `rule:` lines, see parse_rule)."""
     cfg = {'_glyphs': 'unicode'}
     if not path or not os.path.exists(path):
         return None
     for raw in open(path, encoding='utf-8'):
         line = raw.split('#', 1)[0].strip()
-        if not line or line.startswith('rule'):
+        if not line:
+            continue
+        if line.startswith('rule:'):
+            r = parse_rule(line[5:])
+            if r:
+                cfg.setdefault('_rules', []).append(r)
+            continue
+        if line.startswith('rule'):     # bare `rules:` section header
             continue
         if '=' not in line:
             continue
@@ -54,6 +61,38 @@ def load_manifest(path):
                 params[t] = True
         cfg[key] = {'on': on, 'params': params}
     return cfg
+
+
+# ---------- rules (auto-switching) ----------
+def parse_rule(text):
+    """`dir=~/path -> profile=name` or `model=substr -> profile=name` → (kind, value, profile)."""
+    if '->' not in text:
+        return None
+    cond, target = (s.strip() for s in text.split('->', 1))
+    if not target.startswith('profile=') or '=' not in cond:
+        return None
+    prof = target.split('=', 1)[1].strip()
+    kind, val = (s.strip() for s in cond.split('=', 1))
+    if kind not in ('dir', 'model') or not val or not prof:
+        return None
+    return (kind, val, prof)
+
+
+def match_rules(rules, d):
+    """First matching rule wins → target profile name, else None.
+    dir = path-prefix match on the workspace dir; model = substring of id/display_name."""
+    m = d.get('model') or {}
+    model = (' '.join(str(m.get(k) or '') for k in ('id', 'display_name'))
+             if isinstance(m, dict) else str(m)).lower()
+    cwd = (d.get('workspace') or {}).get('current_dir') or d.get('cwd') or ''
+    for kind, val, prof in rules:
+        if kind == 'model' and val.lower() in model:
+            return prof
+        if kind == 'dir':
+            want = os.path.expanduser(val).rstrip('/')
+            if want and (cwd == want or cwd.startswith(want + '/')):
+                return prof
+    return None
 
 
 # ---------- pieces ----------
@@ -253,6 +292,11 @@ def main():
     cfg = load_manifest(os.path.join(args.state, 'profiles', f'{name}.conf'))
     if cfg is None:
         cfg = _builtin(name)
+    target = match_rules(cfg.get('_rules', []), d)
+    if target and target != name:        # redirect once; target's own rules are not followed
+        cfg = (load_manifest(os.path.join(args.state, 'profiles', f'{target}.conf'))
+               or _builtin(target))
+        cfg.pop('_rules', None)
     if args.ascii:
         cfg['_glyphs'] = 'ascii'
 
