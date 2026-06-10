@@ -10,3 +10,9 @@ __pycache__/
 /active
 /state.json
 /backups/
+
+# private working notes — never publish
+SESSION_RECAP*.md
+CLAUDE.local.md
+notes/
+*.local.*
